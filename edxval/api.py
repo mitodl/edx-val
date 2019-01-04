@@ -280,6 +280,8 @@ def get_video_transcript_data(video_id, language_code):
 
     Returns:
         A dict containing transcript file name and its content.
+    Raises:
+        Raises TranscriptsGenerationException if the trasncript data cannot be read.
     """
     video_transcript = VideoTranscript.get_or_none(video_id, language_code)
     if video_transcript:
@@ -291,7 +293,7 @@ def get_video_transcript_data(video_id, language_code):
                 video_id,
                 language_code
             )
-            raise
+            raise TranscriptsGenerationException('Error while retrieving transcript')
 
     return None
 
