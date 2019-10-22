@@ -994,12 +994,13 @@ def create_transcripts_xml(video_id, video_el, resource_fs, static_dir):
         file_format = video_transcript.file_format
 
         try:
+            fs = resource_fs.delegate_fs()
             transcript_filename = create_transcript_file(
                 video_id=video_id,
                 language_code=language_code,
                 file_format=file_format,
-                resource_fs=resource_fs.delegate_fs(),
-                static_dir=static_file_dir
+                resource_fs=fs,
+                static_dir=combine(fs.listdir('.')[0], static_dir)  # File system should not start from /draft directory.
             )
             transcript_files_map[language_code] = transcript_filename
         except TranscriptsGenerationException:
